@@ -16,10 +16,10 @@ variable "zone" {
 
 
 
-variable "project_name_eu" {
-    type = string
-    description = "Euro region project name"
-}
+# variable "project_name_eu" {
+#     type = string
+#     description = "Euro region project name"
+# }
 
 variable "project_name_us" {
     type = string
@@ -37,15 +37,15 @@ variable "project_name_as" {
 # }
 
 # Prototyping
-variable "eu_region" {
-    type= string
-    description = "Region Google project"
-}
+# variable "eu_region" {
+#     type= string
+#     description = "Region Google project"
+# }
 
-variable "eu_zone" {
-    type = string
-    default = "southamerica-east1-a"
-}
+# variable "eu_zone" {
+#     type = string
+#     default = "southamerica-east1-a"
+# }
 
 # US 1
 variable "us_region1" {

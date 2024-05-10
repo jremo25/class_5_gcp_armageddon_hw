@@ -2,6 +2,7 @@
 # For information about validating this Terraform code, see https://developer.hashicorp.com/terraform/tutorials/gcp-get-started/google-cloud-platform-build#format-and-validate-the-configuration
 
 resource "google_compute_instance" "instance" {
+  project = var.project_name
   boot_disk {
     auto_delete = true
     device_name = "${var.project_name}-device"
@@ -48,7 +49,8 @@ resource "google_compute_instance" "instance" {
   }
 
   service_account {
-    email  = "597342763827-compute@developer.gserviceaccount.com"
+    # email  = "597342763827-compute@developer.gserviceaccount.com"
+    email = google_service_account.service_account.email
     scopes = ["https://www.googleapis.com/auth/devstorage.read_only", "https://www.googleapis.com/auth/logging.write", "https://www.googleapis.com/auth/monitoring.write", "https://www.googleapis.com/auth/service.management.readonly", "https://www.googleapis.com/auth/servicecontrol", "https://www.googleapis.com/auth/trace.append"]
   }
 

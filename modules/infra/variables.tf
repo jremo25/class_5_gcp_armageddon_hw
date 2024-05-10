@@ -18,7 +18,7 @@ variable "subnet_cidr" {
     description = "Subnet CIDR block"
 }
 
-variable "vpc_id" {
-    type = string
-    description = "VPC ID"
-}
+# variable "vpc_id" {
+#     type = string
+#     description = "VPC ID"
+# }
