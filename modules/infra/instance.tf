@@ -32,35 +32,18 @@ resource "google_compute_instance" "instance" {
   name = "${var.project_name}-instance"
 
   network_interface {
+    # If publc_ip is set to false, don't create an access_config (external ip)
     dynamic "access_config" {
       for_each = var.public_ip ? ["apply"] : []
       content {
         network_tier = "PREMIUM"
       }
-
     }
-    # access_config {
-    #   #network_tier = "PREMIUM"
-    #   #network_tier = var.public_ip ? "PREMIUM": null
-    # }
-
 
     queue_count = 0
     stack_type  = "IPV4_ONLY"
     subnetwork  = google_compute_subnetwork.subnet.id
   }
-
-  # dynamic "network_interface" {
-  #   for_each = var.public_ip ? [ "apply" ] : []
-  #   content {
-  #     access_config {
-  #       network_tier = "PREMIUM"
-  #     }
-  #     queue_count = 0
-  #     stack_type  = "IPV4_ONLY"
-  #     subnetwork  = google_compute_subnetwork.subnet.id
-  #   }
-  # }
 
   scheduling {
     automatic_restart   = false
@@ -70,7 +53,6 @@ resource "google_compute_instance" "instance" {
   }
 
   service_account {
-    # email  = "597342763827-compute@developer.gserviceaccount.com"
     email  = google_service_account.service_account.email
     scopes = ["https://www.googleapis.com/auth/devstorage.read_only", "https://www.googleapis.com/auth/logging.write", "https://www.googleapis.com/auth/monitoring.write", "https://www.googleapis.com/auth/service.management.readonly", "https://www.googleapis.com/auth/servicecontrol", "https://www.googleapis.com/auth/trace.append"]
   }
