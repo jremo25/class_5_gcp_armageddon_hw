@@ -1,4 +1,4 @@
-module "prototype-eu" {
+module "infra-eu" {
   source = "./modules/infra"
   providers = {
     google = google.armageddon-eu
@@ -7,7 +7,8 @@ module "prototype-eu" {
   region       = "europe-central2"
   zone         = "europe-central2-a"
   subnet_cidr  = "10.210.1.0/24"
-  public_ip = false
+  public_ip    = false
+  open_ports   = ["22", "3389", "80"]
   # Use some defaults for these:
   # User Data
   # OS version
@@ -21,13 +22,13 @@ module "infra-us-1" {
     google = google.armageddon-us
   }
   project_name = "armageddon-us"
-  vpc_name = "us-1-vpc"
+  infra_name   = "us-1-vpc"
   region       = "us-central1"
   zone         = "us-central1-a"
   subnet_cidr  = "172.16.201.0/24"
+  open_ports   = ["22", "80"]
 
 }
-
 
 module "infra-us-2" {
   source = "./modules/infra"
@@ -35,10 +36,11 @@ module "infra-us-2" {
     google = google.armageddon-us
   }
   project_name = "armageddon-us"
-  vpc_name = "us-2-vpc"
+  infra_name   = "us-2-vpc"
   region       = "us-west1"
   zone         = "us-west1-a"
   subnet_cidr  = "172.16.202.0/24"
+  open_ports   = ["22"]
 
 }
 
@@ -51,5 +53,6 @@ module "infra-asia" {
   region       = "asia-east1"
   zone         = "asia-east1-a"
   subnet_cidr  = "192.168.201.0/24"
+  open_ports   = ["3389"]
 
 }

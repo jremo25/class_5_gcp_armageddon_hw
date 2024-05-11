@@ -5,7 +5,7 @@ resource "google_compute_instance" "instance" {
   project = var.project_name
   boot_disk {
     auto_delete = true
-    device_name = "${var.project_name}-device"
+    device_name = "${var.infra_name}-device"
 
     initialize_params {
       image = "projects/debian-cloud/global/images/debian-12-bookworm-v20240415"
@@ -37,13 +37,13 @@ resource "google_compute_instance" "instance" {
       content {
         network_tier = "PREMIUM"
       }
-      
+
     }
     # access_config {
     #   #network_tier = "PREMIUM"
     #   #network_tier = var.public_ip ? "PREMIUM": null
     # }
-  
+
 
     queue_count = 0
     stack_type  = "IPV4_ONLY"

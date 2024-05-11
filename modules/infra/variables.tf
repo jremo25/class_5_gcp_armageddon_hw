@@ -1,7 +1,7 @@
 variable "project_name" {
   type        = string
   description = "Deployment Name"
-  default = null
+  default     = null
 }
 
 variable "region" {
@@ -19,10 +19,10 @@ variable "subnet_cidr" {
   description = "Subnet CIDR block"
 }
 
-variable "vpc_name" {
-  type = string
-  description = "Name of VPC"
-  default = "vpc"
+variable "infra_name" {
+  type        = string
+  description = "Name of Infrastructure"
+  default     = "infra"
 }
 
 # variable "vpc_id" {
@@ -31,7 +31,13 @@ variable "vpc_name" {
 # }
 
 variable "public_ip" {
-  type = bool
+  type        = bool
   description = "Toggle on public ip for instances"
-  default = true
+  default     = true
+}
+
+variable "open_ports" {
+  type        = list(string)
+  description = "List of ports to open"
+  default     = null
 }
