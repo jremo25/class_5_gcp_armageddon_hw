@@ -1,3 +1,15 @@
+resource "google_compute_network_peering" "eu-us1" {
+  name         = "eu-us1"
+  network      = module.infra-eu.vpc
+  peer_network = module.infra-us-1.vpc
+}
+
+resource "google_compute_network_peering" "us1-eu" {
+  name         = "us1-eu"
+  network      = module.infra-us-1.vpc
+  peer_network = module.infra-eu.vpc
+}
+
 # resource "google_compute_network_peering" "eu-us1" {
 #   name = "eu-us1"
 #   network = google_compute_network.eu-vpc.self_link

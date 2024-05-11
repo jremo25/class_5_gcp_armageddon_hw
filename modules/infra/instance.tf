@@ -5,7 +5,7 @@ resource "google_compute_instance" "instance" {
   project = var.project_name
   boot_disk {
     auto_delete = true
-    device_name = "${var.project_name}-device"
+    device_name = "${var.infra_name}-device"
 
     initialize_params {
       image = "projects/debian-cloud/global/images/debian-12-bookworm-v20240415"
@@ -29,16 +29,20 @@ resource "google_compute_instance" "instance" {
   metadata = {
     startup-script = "#!/bin/bash\nsudo apt-get update\nDEBIAN_FRONTEND=noninteractive sudo apt-get upgrade -yq \n\n#install git\nsudo apt install git -y && \\\n\nsudo apt install -y nginx  && \\\nsudo cat <<EOF > /var/www/html/index.html\n<html><body>\n<h1>Hello, Class 5.5</h1>\n<br/>\nHostname: $(curl \"http://metadata.google.internal/computeMetadata/v1/instance/hostname\" -H \"Metadata-Flavor: Google\")\n<br/>\nInstance ID: $(curl \"http://metadata.google.internal/computeMetadata/v1/instance/id\" -H \"Metadata-Flavor: Google\")\n<br/>\nProject ID: $(curl \"http://metadata.google.internal/computeMetadata/v1/project/project-id\" -H \"Metadata-Flavor: Google\")\n<br/>\nZone ID: $(curl \"http://metadata.google.internal/computeMetadata/v1/instance/zone\" -H \"Metadata-Flavor: Google\")\n<br/>\n</body></html>\nEOF"
   }
-  name         = "${var.project_name}-instance"
+  name = "${var.project_name}-instance"
 
   network_interface {
-    access_config {
-      network_tier = "PREMIUM"
+    # If publc_ip is set to false, don't create an access_config (external ip)
+    dynamic "access_config" {
+      for_each = var.public_ip ? ["apply"] : []
+      content {
+        network_tier = "PREMIUM"
+      }
     }
 
     queue_count = 0
     stack_type  = "IPV4_ONLY"
-    subnetwork = google_compute_subnetwork.subnet.id
+    subnetwork  = google_compute_subnetwork.subnet.id
   }
 
   scheduling {
@@ -49,8 +53,7 @@ resource "google_compute_instance" "instance" {
   }
 
   service_account {
-    # email  = "597342763827-compute@developer.gserviceaccount.com"
-    email = google_service_account.service_account.email
+    email  = google_service_account.service_account.email
     scopes = ["https://www.googleapis.com/auth/devstorage.read_only", "https://www.googleapis.com/auth/logging.write", "https://www.googleapis.com/auth/monitoring.write", "https://www.googleapis.com/auth/service.management.readonly", "https://www.googleapis.com/auth/servicecontrol", "https://www.googleapis.com/auth/trace.append"]
   }
 
@@ -61,4 +64,6 @@ resource "google_compute_instance" "instance" {
   }
 
   zone = var.zone
+
+  # depends_on = [google_project_service.compute_service, google_service_account.service_account]
 }

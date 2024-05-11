@@ -1,17 +1,17 @@
 #Project
 variable "project_name" {
-  type = string
+  type        = string
   description = "Deployment Name"
 }
 
 variable "region" {
-    type= string
-    description = "Region Google project"
+  type        = string
+  description = "Region Google project"
 }
 
 variable "zone" {
-    type = string
-    description = "Subnet Zone"
+  type        = string
+  description = "Subnet Zone"
 }
 
 
@@ -22,12 +22,12 @@ variable "zone" {
 # }
 
 variable "project_name_us" {
-    type = string
-    description = "US region project name"
+  type        = string
+  description = "US region project name"
 }
 variable "project_name_as" {
-    type = string
-    description = "US region project name"
+  type        = string
+  description = "US region project name"
 }
 
 #VPC
@@ -49,30 +49,30 @@ variable "project_name_as" {
 
 # US 1
 variable "us_region1" {
-    type = string
-    description = "US region 1"
+  type        = string
+  description = "US region 1"
 }
 variable "us_zone1" {
-    type = string
-    description = "US zone 1"
+  type        = string
+  description = "US zone 1"
 }
 
 # US 2
 variable "us_region2" {
-    type = string
-    description = "US region 2"
+  type        = string
+  description = "US region 2"
 }
 variable "us_zone2" {
-    type = string
-    description = "US zone 2"
+  type        = string
+  description = "US zone 2"
 }
 
 # Asia
 variable "asia_region" {
-    type = string
-    description = "Asia region"
+  type        = string
+  description = "Asia region"
 }
 variable "asia_zone" {
-    type = string
-    description = "Asia zone"
+  type        = string
+  description = "Asia zone"
 }
