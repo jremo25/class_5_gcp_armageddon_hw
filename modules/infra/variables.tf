@@ -36,3 +36,13 @@ variable "open_ports" {
   description = "List of ports to open"
   default     = null
 }
+variable "subnet_purpose" {
+  type = string
+  description = "PRIVATE_RFC_1918, REGIONAL_MANAGED_PROXY, GLOBAL_MANAGED_PROXY, PRIVATE_SERVICE_CONNECT or PRIVATE_NAT."
+  default = null
+}
+
+# variable "allow_rules" {
+#   # rule("Allow/Deny","PROTOCOL",[LIST OF PORTS], [SOURCE CIDR RANGES])
+#   type = list(tuple(string,list(string),list(string)))
+# }
