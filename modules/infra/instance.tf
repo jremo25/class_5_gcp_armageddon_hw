@@ -27,7 +27,8 @@ resource "google_compute_instance" "instance" {
 
   machine_type = var.enable_windows ? var.win_machine_type : var.machine_type
   metadata = {
-    startup-script = "#!/bin/bash\nsudo apt-get update\nDEBIAN_FRONTEND=noninteractive sudo apt-get upgrade -yq \n\n#install git\nsudo apt install git -y && \\\n\nsudo apt install -y nginx  && \\\nsudo cat <<EOF > /var/www/html/index.html\n<html><body>\n<h1>Hello, Class 5.5</h1>\n<br/>\nHostname: $(curl \"http://metadata.google.internal/computeMetadata/v1/instance/hostname\" -H \"Metadata-Flavor: Google\")\n<br/>\nInstance ID: $(curl \"http://metadata.google.internal/computeMetadata/v1/instance/id\" -H \"Metadata-Flavor: Google\")\n<br/>\nProject ID: $(curl \"http://metadata.google.internal/computeMetadata/v1/project/project-id\" -H \"Metadata-Flavor: Google\")\n<br/>\nZone ID: $(curl \"http://metadata.google.internal/computeMetadata/v1/instance/zone\" -H \"Metadata-Flavor: Google\")\n<br/>\n</body></html>\nEOF"
+    # startup-script = "#!/bin/bash\nsudo apt-get update\nDEBIAN_FRONTEND=noninteractive sudo apt-get upgrade -yq \n\n#install git\nsudo apt install git -y && \\\n\nsudo apt install -y nginx  && \\\nsudo cat <<EOF > /var/www/html/index.html\n<html><body>\n<h1>Hello, Class 5.5</h1>\n<br/>\nHostname: $(curl \"http://metadata.google.internal/computeMetadata/v1/instance/hostname\" -H \"Metadata-Flavor: Google\")\n<br/>\nInstance ID: $(curl \"http://metadata.google.internal/computeMetadata/v1/instance/id\" -H \"Metadata-Flavor: Google\")\n<br/>\nProject ID: $(curl \"http://metadata.google.internal/computeMetadata/v1/project/project-id\" -H \"Metadata-Flavor: Google\")\n<br/>\nZone ID: $(curl \"http://metadata.google.internal/computeMetadata/v1/instance/zone\" -H \"Metadata-Flavor: Google\")\n<br/>\n</body></html>\nEOF"
+    startup-script = file("${path.module}/${var.user_data}")
   }
   name = "${var.project_name}-instance"
 
@@ -68,10 +69,18 @@ resource "google_compute_instance" "instance" {
   depends_on = [ google_service_account.service_account ]
 }
 
+resource "time_sleep" "windows_init_time" {
+  count = var.enable_windows ? 1 : 0
+  depends_on = [ google_compute_instance.instance ]
+  create_duration = "45s"
+}
+
 data "external" "env" {
   count = var.enable_windows ? 1 : 0
   program = ["./${path.module}/reset_pass.sh"]
 
+  depends_on = [ time_sleep.windows_init_time[0] ]
+  
 }
 
 output "windows_rdp" {

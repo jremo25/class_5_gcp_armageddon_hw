@@ -20,8 +20,8 @@ output "urls" {
     Public IP Addresses:
     ********************* 
     EU server:     ${module.infra-eu.url}
-    US server 1:   ${module.infra-us-1.url}
-    US server 2:   ${module.infra-us-2.url}
+    US server 1:   http://${module.infra-us-1.url}
+    US server 2:   http://${module.infra-us-2.url}
     Asia server:   ${module.infra-asia.url}
     EOF
 }

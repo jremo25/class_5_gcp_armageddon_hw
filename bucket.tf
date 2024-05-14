@@ -1,11 +1,12 @@
-resource "random_string" "password" {
+resource "random_string" "suffix" {
     length = 8
     special = false
     upper = false
 }
 
 resource "google_storage_bucket" "bucket" {
-  name          = "arma-bucket-${random_string.password.result}"
+  project = "armageddon-us"
+  name          = "arma-bucket-${random_string.suffix.result}"
   location      = "US"
   force_destroy = true
 
@@ -46,12 +47,13 @@ locals {
     ".css" : "text/css",
     ".js" : "text/javascript",
     ".mp4" : "video/mp4",
-    ".png" : "image/png"
+    ".png" : "image/png",
+    ".jpg" : "image/jpg"
   }
 }
 
 resource "google_storage_bucket_object" "file" {
-  for_each     = fileset(path.module, "content/**/*.{html,css,js,mp4,png}")
+  for_each     = fileset(path.module, "content/**/*.{html,css,js,mp4,png,jpg}")
   bucket       = google_storage_bucket.bucket.id
 #   key          = replace(each.value, "/^content//", "")
   name          = replace(each.value, "/^content//", "")

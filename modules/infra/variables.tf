@@ -80,3 +80,8 @@ variable "win_size" {
   type = bool
   default = false
  }
+
+ variable "user_data" {
+  type = string
+  default = "default-user-data.sh"
+ }
