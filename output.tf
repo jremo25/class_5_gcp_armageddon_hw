@@ -1,3 +1,7 @@
+output "bucket_link" {
+    value = "https://storage.googleapis.com/${google_storage_bucket.bucket.name}/index.html"
+}
+
 output "ip_addresses" {
   value = <<EOF
     *********************
