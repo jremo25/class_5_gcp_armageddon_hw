@@ -1,3 +1,12 @@
+# Shout out to JRemo his vpn example
+
+resource "random_string" "shared_secret" {
+    length = 32
+    special = true
+    override_special = "$@/"
+    # upper = false
+}
+
 resource "google_compute_vpn_gateway" "eu-gateway" {
   project = "armageddon-eu"
   region = module.infra-eu.region
@@ -93,7 +102,8 @@ resource "google_compute_vpn_tunnel" "eu-tunnel" {
   name = "${module.infra-eu.name}-tunnel-1"
   region = module.infra-eu.region
   peer_ip = google_compute_address.asia-vpn_static_ip.address
-  shared_secret = "tu13DRaj7X8e8C0Ai6Qw"
+  # shared_secret = "tu13DRaj7X8e8C0Ai6Qw"
+  shared_secret = random_string.shared_secret.result
   ike_version = 2
   
   local_traffic_selector = [module.infra-eu.subnet_cidr]
@@ -112,7 +122,8 @@ resource "google_compute_vpn_tunnel" "asia-tunnel" {
   region = module.infra-asia.region
   name = "${module.infra-asia.name}-tunnel-1"
   peer_ip = google_compute_address.eu-vpn_static_ip.address
-  shared_secret = "tu13DRaj7X8e8C0Ai6Qw"
+  # shared_secret = "tu13DRaj7X8e8C0Ai6Qw"
+  shared_secret = random_string.shared_secret.result
   ike_version = 2
 
   local_traffic_selector = [module.infra-asia.subnet_cidr]

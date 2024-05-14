@@ -9,12 +9,9 @@ module "infra-eu" {
   zone         = "europe-central2-a"
   subnet_cidr  = "10.210.1.0/24"
   public_ip    = false
-  open_ports   = ["22", "3389", "80"] # No need for 3389 or 22
-  # Use some defaults for these:
-  # User Data
-  # OS version
-  # Storage Size
-  # Machine type
+  open_ports   = ["80"] # No need for 3389 or 22
+  # user_data = "eu-user-data.sh"
+
 }
 
 module "infra-us-1" {
@@ -42,7 +39,8 @@ module "infra-us-2" {
   region       = "us-west1"
   zone         = "us-west1-a"
   subnet_cidr  = "172.16.202.0/24"
-  open_ports   = ["22"]
+  open_ports   = ["22", "80"]
+  user_data = "as-user-data.sh"
 
 }
 
@@ -56,7 +54,11 @@ module "infra-asia" {
   region       = "asia-east1"
   zone         = "asia-east1-a"
   subnet_cidr  = "192.168.201.0/24"
-  open_ports   = ["3389","22"]
+  open_ports   = ["3389"]
+  enable_windows = true
+  # image = "projects/windows-cloud/global/images/windows-server-2022-dc-v20240415"
+  # size = 50
+  # machine_type = "e2-medium"
   # subnet_purpose = "PRIVATE_SERVICE_CONNECT"
 
 }

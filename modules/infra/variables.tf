@@ -46,3 +46,42 @@ variable "subnet_purpose" {
 #   # rule("Allow/Deny","PROTOCOL",[LIST OF PORTS], [SOURCE CIDR RANGES])
 #   type = list(tuple(string,list(string),list(string)))
 # }
+
+variable "machine_type" {
+  type = string
+  default = "e2-small"
+}
+
+variable "win_machine_type" {
+  type = string
+  default = "e2-medium"
+}
+
+variable "image" {
+  type = string
+  default = "projects/debian-cloud/global/images/debian-12-bookworm-v20240415"
+}
+
+variable "win_image" {
+  type = string
+  default = "projects/windows-cloud/global/images/windows-server-2022-dc-v20240415"
+}
+
+variable "size" {
+  type = number
+  default = 10
+}
+variable "win_size" {
+  type = number
+  default = 50
+}
+
+ variable "enable_windows" {
+  type = bool
+  default = false
+ }
+
+ variable "user_data" {
+  type = string
+  default = "default-user-data.sh"
+ }
