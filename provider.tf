@@ -7,14 +7,14 @@ terraform {
   }
 }
 
-provider "google" {
-  # Configuration options
-  # alias = "armageddon-eu"
-  # zone = "us-central1-a"
-  region = "us-central1"
-  # project = "armageddon-eu"
-  # credentials = "/home/ohbster/Cloud/GCP/auth/Armageddon/armageddon-eu-b30bce32da9f.json"
-}
+# provider "google" {
+#   # Configuration options
+#   # alias = "armageddon-eu"
+#   # zone = "us-central1-a"
+#   region = "us-central1"
+#   # project = "armageddon-eu"
+#   # credentials = "/home/ohbster/Cloud/GCP/auth/Armageddon/armageddon-eu-b30bce32da9f.json"
+# }
 
 provider "google" {
   # Configuration options
@@ -37,8 +37,8 @@ provider "google" {
 provider "google" {
   # Configuration options
   alias       = "armageddon-as"
-  zone        = "us-central1-a"
-  region      = "us-central1"
+  zone        = "asia-east1-a"
+  region      = "asia-east1"
   project     = "armageddon-as"
   credentials = "/home/ohbster/Cloud/GCP/auth/Armageddon/armageddon-as-d13fd1afd9b6.json"
 }

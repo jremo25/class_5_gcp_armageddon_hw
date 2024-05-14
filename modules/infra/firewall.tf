@@ -11,5 +11,6 @@ resource "google_compute_firewall" "rules" {
   source_ranges = ["0.0.0.0/0"]
 
   # source_tags = []
+  target_tags = []
 
 }

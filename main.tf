@@ -3,13 +3,13 @@ module "infra-eu" {
   providers = {
     google = google.armageddon-eu
   }
-  project_name = var.project_name
+  project_name = "armageddon-eu"
   infra_name = "eu-infra"
   region       = "europe-central2"
   zone         = "europe-central2-a"
   subnet_cidr  = "10.210.1.0/24"
-  public_ip    = false
-  open_ports   = ["22", "3389", "80"]
+  # public_ip    = false
+  open_ports   = ["22", "3389", "80"] # No need for 3389 or 22
   # Use some defaults for these:
   # User Data
   # OS version
@@ -28,6 +28,7 @@ module "infra-us-1" {
   zone         = "us-central1-a"
   subnet_cidr  = "172.16.201.0/24"
   open_ports   = ["22", "80"]
+  # subnet_purpose = "PRIVATE_SERVICE_CONNECT"
 
 }
 
@@ -55,6 +56,7 @@ module "infra-asia" {
   region       = "asia-east1"
   zone         = "asia-east1-a"
   subnet_cidr  = "192.168.201.0/24"
-  open_ports   = ["3389"]
+  open_ports   = ["3389","22"]
+  # subnet_purpose = "PRIVATE_SERVICE_CONNECT"
 
 }
