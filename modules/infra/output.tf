@@ -30,3 +30,15 @@ output "subnet_name" {
 output "region" {
   value = data.google_client_config.this.region
 }
+
+output "zone" {
+  value = google_compute_instance.instance.zone
+}
+
+output "instance_name" {
+  value = google_compute_instance.instance.name
+}
+
+output "project" {
+  value = data.google_client_config.this.project
+}

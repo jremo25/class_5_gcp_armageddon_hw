@@ -21,3 +21,14 @@ output "urls" {
     Asia server: ${module.infra-asia.url}
     EOF
 }
+
+output "connect_cmds" {
+  value = <<-EOT
+  *********************
+  Connection bash commands
+  *********************
+  US server 1:   gcloud compute ssh --zone "${module.infra-us-1.zone}" "${module.infra-us-1.instance_name}" --project "${module.infra-us-1.project}"
+  US server 2:   gcloud compute ssh --zone "${module.infra-us-2.zone}" "${module.infra-us-2.instance_name}" --project "${module.infra-us-2.project}"
+  US server 1:   gcloud compute ssh --zone "${module.infra-asia.zone}" "${module.infra-asia.instance_name}" --project "${module.infra-asia.project}"
+  EOT
+}
