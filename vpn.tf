@@ -1,17 +1,3 @@
-# resource "google_compute_global_address" "eu-eip" {
-#   project = "armageddon-eu"
-#   name = "eu-elastic-ip"
-#   address_type = "EXTERNAL"
-#   ip_version = "IPV4"
-# }
-
-# resource "google_compute_global_address" "asia-eip" {
-#   project = "armageddon-as"
-#   name = "asia-elastic-ip"
-#   address_type = "EXTERNAL"
-#   ip_version = "IPV4"
-# }
-
 resource "google_compute_vpn_gateway" "eu-gateway" {
   project = "armageddon-eu"
   region = module.infra-eu.region
