@@ -1,3 +1,5 @@
+data "google_client_config" "this" {}
+
 output "vpc" {
   value = google_compute_network.vpc.self_link
 }
@@ -19,4 +21,12 @@ output "name" {
 
 output "subnet_cidr" {
   value = google_compute_subnetwork.subnet.ip_cidr_range
+}
+
+output "subnet_name" {
+  value = google_compute_subnetwork.subnet.name
+}
+
+output "region" {
+  value = data.google_client_config.this.region
 }
