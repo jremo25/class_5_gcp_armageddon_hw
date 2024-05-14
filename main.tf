@@ -8,7 +8,7 @@ module "infra-eu" {
   region       = "europe-central2"
   zone         = "europe-central2-a"
   subnet_cidr  = "10.210.1.0/24"
-  # public_ip    = false
+  public_ip    = false
   open_ports   = ["22", "3389", "80"] # No need for 3389 or 22
   # Use some defaults for these:
   # User Data
