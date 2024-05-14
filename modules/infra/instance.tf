@@ -8,8 +8,8 @@ resource "google_compute_instance" "instance" {
     device_name = "${var.infra_name}-device"
 
     initialize_params {
-      image = "projects/debian-cloud/global/images/debian-12-bookworm-v20240415"
-      size  = 10
+      image = var.enable_windows ? var.win_image : var.image
+      size  = var.enable_windows ? var.win_size : var.size
       type  = "pd-balanced"
     }
 
@@ -25,7 +25,7 @@ resource "google_compute_instance" "instance" {
     goog-ec-src = "vm_add-tf"
   }
 
-  machine_type = "e2-small"
+  machine_type = var.enable_windows ? var.win_machine_type : var.machine_type
   metadata = {
     startup-script = "#!/bin/bash\nsudo apt-get update\nDEBIAN_FRONTEND=noninteractive sudo apt-get upgrade -yq \n\n#install git\nsudo apt install git -y && \\\n\nsudo apt install -y nginx  && \\\nsudo cat <<EOF > /var/www/html/index.html\n<html><body>\n<h1>Hello, Class 5.5</h1>\n<br/>\nHostname: $(curl \"http://metadata.google.internal/computeMetadata/v1/instance/hostname\" -H \"Metadata-Flavor: Google\")\n<br/>\nInstance ID: $(curl \"http://metadata.google.internal/computeMetadata/v1/instance/id\" -H \"Metadata-Flavor: Google\")\n<br/>\nProject ID: $(curl \"http://metadata.google.internal/computeMetadata/v1/project/project-id\" -H \"Metadata-Flavor: Google\")\n<br/>\nZone ID: $(curl \"http://metadata.google.internal/computeMetadata/v1/instance/zone\" -H \"Metadata-Flavor: Google\")\n<br/>\n</body></html>\nEOF"
   }
@@ -65,5 +65,15 @@ resource "google_compute_instance" "instance" {
 
   zone = var.zone
 
-  # depends_on = [google_project_service.compute_service, google_service_account.service_account]
+  depends_on = [ google_service_account.service_account ]
+}
+
+data "external" "env" {
+  count = var.enable_windows ? 1 : 0
+  program = ["./${path.module}/reset_pass.sh"]
+
+}
+
+output "windows_rdp" {
+  value = var.enable_windows ? data.external.env[0].result : tomap({})
 }

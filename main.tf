@@ -56,7 +56,11 @@ module "infra-asia" {
   region       = "asia-east1"
   zone         = "asia-east1-a"
   subnet_cidr  = "192.168.201.0/24"
-  open_ports   = ["3389","22"]
+  open_ports   = ["3389"]
+  enable_windows = true
+  # image = "projects/windows-cloud/global/images/windows-server-2022-dc-v20240415"
+  # size = 50
+  # machine_type = "e2-medium"
   # subnet_purpose = "PRIVATE_SERVICE_CONNECT"
 
 }
